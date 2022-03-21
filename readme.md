@@ -12,14 +12,14 @@ KIE Server SpringBoot sample application that uses KeyCloak and Spring Security 
 
 This sample requires KeyCloak to be installed and configured with following defaults:
 - keycloak.auth-server-url=http://localhost:8100/auth
-- keycloak.realm=master
-- keycloak.resource=springboot-app
+- keycloak.realm=rhpam-client-app
+- keycloak.resource=springboot-user-app
 
 
 How to configure it
 -------------------
 
-- Download and install KeyCloak. 
+- Download and install KeyCloak.
 - Use default master realm or create new one
 - Create client named springboot-app and set its AccessType to public
 - Set Valid redirect URI and Web Origin according to your local setup - with default setup they should be set to
@@ -34,7 +34,7 @@ https://github.com/rmuppane/work-flow
 Step 2: Checkout and build (mvn clean install).
 https://github.com/rmuppane/sb-kie-server-sso-service
 
-When we compare with the https://github.com/rmuppane/sb-kie-server-service following changes were added 
+When we compare with the https://github.com/rmuppane/sb-kie-server-service following changes were added
 
 
 pom.xml
@@ -108,7 +108,7 @@ Dependencies
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 Dependency Management
 
 		<dependencyManagement>
@@ -122,7 +122,6 @@ Dependency Management
 				</dependency>
 			</dependencies>
 		</dependencyManagement>
-	
 
 
 application.propeerties
@@ -132,13 +131,17 @@ All keycloak configuration is present in src/main/resources/application.properti
 
 # keycloak security setup
 keycloak.auth-server-url=http://localhost:8080/auth
-keycloak.realm=master
-keycloak.resource=springboot-app
+
+keycloak.realm=rhpam-client-app
+
+keycloak.resource=springboot-user-app
+
 keycloak.public-client=true
+
 keycloak.principal-attribute=preferred_username
+
 keycloak.enable-basic-auth=true
 
-# role for restricted tag (VariableGuardProcessEventListener)
 kie.restricted-role=President
 
 
@@ -150,4 +153,10 @@ KeycloakVariableGuardProcessEventListener.java []
 DefaultWebSecurityConfig.java []
 
 
-Step 3: java -jar ./target/sb-kie-server-service-1.0-SNAPSHOT.jar or mvn clean spring-boot:run
+Step 3: To run the Application
+
+java -Dorg.kie.server.json.format.date=true -Dorg.kie.server.bypass.auth.user=true -jar ./target/sb-kie-server-sso-service-1.0-SNAPSHOT.jar
+
+or
+
+mvn clean spring-boot:run -Drun.jvmArguments="-Dorg.kie.server.json.format.date=true -Dorg.kie.server.bypass.auth.user=true"
