@@ -1,0 +1,3079 @@
+{
+	"info": {
+		"_postman_id": "9efd9c4a-701e-4877-b7a8-df424d600d92",
+		"name": "SSOIntegration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetContainers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"",
+							"",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"// var data = `client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateNewProcessInstance",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"faceAmount\": 50000,\n    \"age\": 35\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers/work-flow/processes/work-flow.work-assignment/instances",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers",
+						"work-flow",
+						"processes",
+						"work-flow.work-assignment",
+						"instances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveAllProcessInstances",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/processes/work-flow.work-assignment/instances?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"processes",
+						"work-flow.work-assignment",
+						"instances"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProcessInstanceWithVariables",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/processes/instances/1?withVars=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"processes",
+						"instances",
+						"1"
+					],
+					"query": [
+						{
+							"key": "withVars",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-teamlead_lc",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-teamlead_l",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_l\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-teamlead_c",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_c\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-technician_c1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-technician_c2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-technician_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveInstancesAsPot-technician_l2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/pot-owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"pot-owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TaskDetails",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/process/1?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"process",
+						"1"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TaskDetails With Assignments",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers/work-flow/tasks/1?withAssignments=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers",
+						"work-flow",
+						"tasks",
+						"1"
+					],
+					"query": [
+						{
+							"key": "withAssignments",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-teamlead_lc",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-teamlead_l",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_l\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?user=UserLC&page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "user",
+							"value": "UserLC"
+						},
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-teamlead_c",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_c\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-technicain_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-technicain_l2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"",
+							"",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-technician_C1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssignedTasks-Inbox-technician_C2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DelegateTask-teamlead_lc is assigning task to technician_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers/work-flow/tasks/1/states/delegated?targetUser=technician_l1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers",
+						"work-flow",
+						"tasks",
+						"1",
+						"states",
+						"delegated"
+					],
+					"query": [
+						{
+							"key": "targetUser",
+							"value": "technician_l1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-teamleader_lc",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-teamleader_l",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_l\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-teamlead_c",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_c\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-technician_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-technician_c1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-technician_l2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck GetAssignedTasks-Inbox-technician_c2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_c2\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/tasks/instances/owners?page=0&pageSize=10&sortOrder=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"tasks",
+						"instances",
+						"owners"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "sortOrder",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start a task - technician_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers/work-flow/tasks/1/states/started",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers",
+						"work-flow",
+						"tasks",
+						"1",
+						"states",
+						"started"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete a task - technician_l1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"technician_l1\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/containers/work-flow/tasks/1/states/completed",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"containers",
+						"work-flow",
+						"tasks",
+						"1",
+						"states",
+						"completed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recheck ProcessWithVariables",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var server = \"http://localhost:8080/\";",
+							"var realm = \"rhpam-treaty-dxc\";",
+							"var url = `${server}auth/realms/${realm}/protocol/openid-connect/token`;",
+							"var username = \"teamlead_lc\";",
+							"var pass = \"Pa$$w0rd\";",
+							"var grantType = \"password\";",
+							"var clientId = \"springboot-user-app\";",
+							"var clientSecret = \"secret\";",
+							"var data = `grant_type=${grantType}&username=${username}&password=${pass}&client_id=${clientId}&client_secret=${clientSecret}`;",
+							"",
+							"pm.sendRequest({",
+							"    url: url,",
+							"    method: 'POST',",
+							"    header: { 'Content-Type': 'application/x-www-form-urlencoded' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: data",
+							"    }",
+							"}, function (err, response) {",
+							"",
+							"    var response_json = response.json();",
+							"    var token = response_json.access_token;",
+							"    pm.environment.set('token', token);",
+							"    console.log(token);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8090/rest/server/queries/processes/instances/1?withVars=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"rest",
+						"server",
+						"queries",
+						"processes",
+						"instances",
+						"1"
+					],
+					"query": [
+						{
+							"key": "withVars",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
