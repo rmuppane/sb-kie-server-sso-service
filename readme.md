@@ -51,7 +51,7 @@ pom.xml
 
 	Dependencies
 
-	```
+	
 		<dependency>
 				<groupId>org.keycloak</groupId>
 				<artifactId>keycloak-spring-boot-starter</artifactId>
@@ -119,15 +119,9 @@ pom.xml
 				</exclusions>
 			</dependency>
 	
-	```
-	
-	
 	
 	Dependency Management
-	
-	
-	
-	```
+
 			<dependencyManagement>
 				<dependencies>
 					<dependency>
@@ -140,12 +134,11 @@ pom.xml
 				</dependencies>
 			</dependencyManagement>
 	
-	```
+	
 
 
 All KeyCloak configuration properties are present in [application.properties](src/main/resources/application.properties).
 	
-	```
 	
 	keycloak.auth-server-url=http://localhost:8080/auth
 	keycloak.realm=rhpam-treaty-dxc
@@ -155,7 +148,6 @@ All KeyCloak configuration properties are present in [application.properties](sr
 	keycloak.enable-basic-auth=true
 	kie.restricted-role=President
 	
-	```
 
 
 Java classes
@@ -180,6 +172,6 @@ Testing
 
 Test the application by using the java client or postman scripts 
 
-Java Client:  https://github.com/rmuppane/kie-server-sso-user-client.git
+- Java Client:  https://github.com/rmuppane/kie-server-sso-user-client.git
 
-Postman scripts avilable at [SSOIntegration.postman_collection.json](src/postmanscripts/SSOIntegration.postman_collection.json)
+- Postman scripts avilable at [SSOIntegration.postman_collection.json](src/postmanscripts/SSOIntegration.postman_collection.json)
